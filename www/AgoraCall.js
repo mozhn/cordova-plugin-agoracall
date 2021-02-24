@@ -1,7 +1,7 @@
 var exec = require('cordova/exec');
 
-exports.init = function (appId, callback, callback2) {
-    exec(callback, callback2, 'AgoraCall', 'init', [appId]);
+exports.init = function (appId, callback) {
+    exec(callback, null, 'AgoraCall', 'init', [appId]);
 };
 
 exports.join = function (accessToken, channelName, uid, success, error) {
