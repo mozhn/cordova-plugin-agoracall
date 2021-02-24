@@ -1,0 +1,17 @@
+{
+  "name": "me.mazlum.agoracall",
+  "version": "0.1.0",
+  "description": "Cordova Plugin for Agora",
+  "cordova": {
+    "id": "me.mazlum.agoracall",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "mozhn",
+  "license": "ISC"
+}

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="me.mazlum.agoracall" version="0.1.0"
+  xmlns="http://apache.org/cordova/ns/plugins/1.0"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>AgoraCall</name>
+  <js-module name="AgoraCall" src="www/AgoraCall.js">
+    <clobbers target="cordova.plugins.AgoraCall" />
+  </js-module>
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="AgoraCall">
+        <param name="android-package" value="me.mazlum.agoracall.AgoraCall" />
+      </feature>
+    </config-file>
+    <config-file parent="/manifest" target="AndroidManifest.xml">
+      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml" />
+    <source-file src="src/android/AgoraCall.java" target-dir="src/me/mazlum/agoracall/AgoraCall" />
+    <framework src="io.agora.rtc:voice-sdk:3.3.0" />
+  </platform>
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="AgoraCall">
+        <param name="ios-package" value="AgoraCall" />
+      </feature>
+    </config-file>
+    <source-file src="src/ios/AgoraCall.m" />
+    <framework src="AgoraAudio_iOS" type="podspec" spec="3.3.0" />
+  </platform>
+</plugin>
