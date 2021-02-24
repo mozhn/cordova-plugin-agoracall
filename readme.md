@@ -1,5 +1,5 @@
 # cordova-plugin-agoracall
-Cordova Plugin for Agora
+Cordova Plugin for Agora voice call. Video call will be added soon.
 
 ## Installation
 
