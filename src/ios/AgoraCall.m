@@ -35,7 +35,7 @@
     NSString* channelName = [command.arguments objectAtIndex:1];
     NSString* uid = [command.arguments objectAtIndex:2];
 
-    AgoraRtcChannelMediaOptions *mediaOptions = nil;
+    AgoraRtcChannelMediaOptions *mediaOptions = [AgoraRtcChannelMediaOptions new];
     mediaOptions.autoSubscribeAudio = true;
     mediaOptions.autoSubscribeVideo = false;
 
