@@ -57,9 +57,13 @@
 
 - (void)switchAudio:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = nil;
-    BOOL status = [command.arguments objectAtIndex:0];
+    NSNumber *status = [command.arguments objectAtIndex:0];
 
-    [self.agoraKit muteLocalAudioStream:status];
+    if ([status isEqual: @(YES)]){
+        [self.agoraKit muteLocalAudioStream:YES];
+    } else {
+        [self.agoraKit muteLocalAudioStream:NO];
+    }
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -67,10 +71,14 @@
 
 - (void)switchSpeaker:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = nil;
-    BOOL status = [command.arguments objectAtIndex:0];
+    NSNumber *status = [command.arguments objectAtIndex:0];
 
-    [self.agoraKit setEnableSpeakerphone:status];
-
+    if ([status isEqual: @(YES)]){
+        [self.agoraKit setEnableSpeakerphone:YES];
+    } else {
+        [self.agoraKit setEnableSpeakerphone:NO];
+    }
+    
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
