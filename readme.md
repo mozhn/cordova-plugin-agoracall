@@ -6,7 +6,7 @@ Cordova Plugin for Agora voice call. Video call will be added soon.
 - Add this to the 'package.json'
   - In the dependencies section:
   ```
-  "me.mazlum.agoracall": "https://github.com/mozhn/cordova-plugin-agora"
+  "me.mazlum.agoracall": "https://github.com/mozhn/cordova-plugin-agoracall"
   ```
 
   - In the cordova plugins section:
