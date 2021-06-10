@@ -1,6 +1,13 @@
 package me.mazlum.agoracall;
 
 import android.util.Log;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
@@ -14,10 +21,26 @@ import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.models.ChannelMediaOptions;
 
+import io.agora.rtc.video.VideoCanvas;
+import io.agora.rtc.video.VideoEncoderConfiguration;
+
 public class AgoraCall extends CordovaPlugin {
     private static final String LOG_TAG = "AgoraCall";
     private RtcEngine rtcEngine;
     private CallbackContext callbackContext;
+
+    private FrameLayout mLocalContainer;
+    private RelativeLayout mRemoteContainer;
+    private VideoCanvas mLocalVideo;
+    private VideoCanvas mRemoteVideo;
+
+    private ImageView mCallBtn;
+    private ImageView mMuteBtn;
+    private ImageView mSwitchCameraBtn;
+
+    private boolean mMuted;
+    private String channelType;
+    private FakeR fakeR;
 
     private final IRtcEngineEventHandler rtcEventHandler = new IRtcEngineEventHandler() {
         @Override
@@ -46,6 +69,15 @@ public class AgoraCall extends CordovaPlugin {
             PluginResult result = new PluginResult(PluginResult.Status.OK, "PARTICIPANT_CONNECTED");
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
+
+            if (channelType.contains("video")) {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setupRemoteVideo(uid);
+                    }
+                });
+            }
         }
 
         @Override
@@ -53,6 +85,15 @@ public class AgoraCall extends CordovaPlugin {
             PluginResult result = new PluginResult(PluginResult.Status.OK, "PARTICIPANT_DISCONNECTED");
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
+
+            if (channelType.contains("video")) {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setupRemoteVideo(uid);
+                    }
+                });
+            }
         }
 
         @Override
@@ -89,11 +130,21 @@ public class AgoraCall extends CordovaPlugin {
         if (action.equals("init")) {
             this.callbackContext = callbackContext;
             this.initEngine(args.getString(0), callbackContext);
+
+            this.mMuted = false;
+
             return true;
         } else if (action.equals("join")) {
             String accessToken = args.getString(0);
             String channelName = args.getString(1);
             String uid = args.getString(2);
+            this.channelType = args.getString(3);
+
+            Log.e(LOG_TAG, "Channel Type: " + this.channelType);
+
+            if (this.channelType.contains("video")) {
+                this.initUI();
+            }
 
             this.joinChannel(accessToken, channelName, uid, callbackContext);
             return true;
@@ -115,6 +166,10 @@ public class AgoraCall extends CordovaPlugin {
     private void initEngine(String appId, CallbackContext callbackContext) {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
+                fakeR = new FakeR(
+                    cordova.getActivity().getApplicationContext()
+                );
+
                 try {
                     rtcEngine = RtcEngine.create(
                         cordova.getActivity().getBaseContext(), appId, rtcEventHandler
@@ -133,6 +188,47 @@ public class AgoraCall extends CordovaPlugin {
         });
     }
 
+    private void initUI() {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    cordova.getActivity().setContentView(
+                        fakeR.getLayout("activity_video_chat_view")
+                    );
+
+                    mLocalContainer = cordova.getActivity().findViewById(
+                        fakeR.getId("local_video_view_container")
+                    );
+                    mRemoteContainer = cordova.getActivity().findViewById(
+                        fakeR.getId("remote_video_view_container")
+                    );
+
+                    mCallBtn = cordova.getActivity().findViewById(fakeR.getId("btn_call"));
+                    mMuteBtn = cordova.getActivity().findViewById(fakeR.getId("btn_mute"));
+                    mSwitchCameraBtn = cordova.getActivity().findViewById(
+                        fakeR.getId("btn_switch_camera")
+                    );
+
+                    mCallBtn.setOnClickListener(callClickListener());
+                    mMuteBtn.setOnClickListener(muteClickListener());
+                    mSwitchCameraBtn.setOnClickListener(switchVideoClickListener());
+                    mLocalContainer.setOnClickListener(switchViewClickListener());
+                } catch (Exception error) {
+                    Log.e(LOG_TAG, Log.getStackTraceString(error));
+                }
+            }
+        });
+    }
+
+    private View getView() {
+        try {
+            return (View)webView.getClass().getMethod("getView").invoke(webView);
+        } catch (Exception e) {
+            return (View)webView;
+        }
+    }
+
     private void joinChannel(String accessToken, String channelName, String uid, CallbackContext callbackContext) {
         if (rtcEngine == null) {
             callbackContext.error("You must first call the init method.");
@@ -144,7 +240,12 @@ public class AgoraCall extends CordovaPlugin {
                 ChannelMediaOptions mediaOptions = new ChannelMediaOptions();
 
                 mediaOptions.autoSubscribeAudio = true;
-                mediaOptions.autoSubscribeVideo = false;
+                mediaOptions.autoSubscribeVideo = channelType.contains("video");
+
+                if (channelType.contains("video")) {
+                    setupVideoConfig();
+                    setupLocalVideo();
+                }
 
                 try {
                     rtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_COMMUNICATION);
@@ -170,9 +271,7 @@ public class AgoraCall extends CordovaPlugin {
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    rtcEngine.leaveChannel();
-                    RtcEngine.destroy();
-                    rtcEngine = null;
+                    removeChannel();
                     callbackContext.success("success");
                 } catch (Exception error) {
                     Log.e(LOG_TAG, Log.getStackTraceString(error));
@@ -204,9 +303,163 @@ public class AgoraCall extends CordovaPlugin {
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
+                mMuted = status;
                 rtcEngine.muteLocalAudioStream(status);
                 callbackContext.success("success");
             }
         });
+    }
+
+    private View.OnClickListener callClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rtcEngine != null) {
+                    removeChannel();
+                }
+            }
+        };
+    }
+
+    private View.OnClickListener muteClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMuted = !mMuted;
+
+                rtcEngine.muteLocalAudioStream(mMuted);
+                int res = mMuted ? fakeR.getDrawable("btn_mute") : fakeR.getDrawable("btn_unmute");
+                mMuteBtn.setImageResource(res);
+            }
+        };
+    }
+
+    private View.OnClickListener switchViewClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchView(mLocalVideo);
+                switchView(mRemoteVideo);
+            }
+        };
+    }
+
+    private View.OnClickListener switchVideoClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rtcEngine.switchCamera();
+            }
+        };
+    }
+
+    private ViewGroup removeFromParent(VideoCanvas canvas) {
+        if (canvas != null) {
+            ViewParent parent = canvas.view.getParent();
+            if (parent != null) {
+                ViewGroup group = (ViewGroup) parent;
+                group.removeView(canvas.view);
+                return group;
+            }
+        }
+        return null;
+    }
+
+    private void setupVideoConfig() {
+        rtcEngine.enableVideo();
+
+        rtcEngine.setVideoEncoderConfiguration(
+            new VideoEncoderConfiguration(
+                VideoEncoderConfiguration.VD_640x360,
+                VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_30,
+                VideoEncoderConfiguration.STANDARD_BITRATE,
+                VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT
+            )
+        );
+    }
+
+    private void setupLocalVideo() {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    SurfaceView view = RtcEngine.CreateRendererView(
+                        cordova.getActivity().getBaseContext()
+                    );
+                    view.setZOrderMediaOverlay(true);
+                    view.setBackgroundResource(fakeR.getDrawable("round_local_frame"));
+                    mLocalContainer.addView(view);
+
+                    mLocalVideo = new VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, 0);
+                    rtcEngine.setupLocalVideo(mLocalVideo);
+                } catch (Exception error) {
+                    Log.e(LOG_TAG, Log.getStackTraceString(error));
+                }
+            }
+        });
+    }
+
+    private void setupRemoteVideo(int uid) {
+        ViewGroup parent = mRemoteContainer;
+        if (parent.indexOfChild(mLocalVideo.view) > -1) {
+            parent = mLocalContainer;
+        }
+
+        if (mRemoteVideo != null) {
+            return;
+        }
+
+        SurfaceView view = RtcEngine.CreateRendererView(
+            cordova.getActivity().getBaseContext()
+        );
+        view.setZOrderMediaOverlay(parent == mLocalContainer);
+        parent.addView(view);
+        mRemoteVideo = new VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, uid);
+
+        rtcEngine.setupRemoteVideo(mRemoteVideo);
+    }
+
+    private void onRemoteUserLeft(int uid) {
+        if (mRemoteVideo != null && mRemoteVideo.uid == uid) {
+            removeFromParent(mRemoteVideo);
+            mRemoteVideo = null;
+        }
+    }
+
+    private void removeChannel() {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (rtcEngine != null) {
+                    if (channelType.contains("video")) {
+                        removeFromParent(mLocalVideo);
+                        mLocalVideo = null;
+                        removeFromParent(mRemoteVideo);
+                        mRemoteVideo = null;
+
+                        cordova.getActivity().setContentView(getView());
+                    }
+
+                    rtcEngine.leaveChannel();
+                    RtcEngine.destroy();
+                    rtcEngine = null;
+                }
+            }
+        });
+    }
+
+    private void switchView(VideoCanvas canvas) {
+        ViewGroup parent = removeFromParent(canvas);
+        if (parent == mLocalContainer) {
+            if (canvas.view instanceof SurfaceView) {
+                ((SurfaceView) canvas.view).setZOrderMediaOverlay(false);
+            }
+            mRemoteContainer.addView(canvas.view);
+        } else if (parent == mRemoteContainer) {
+            if (canvas.view instanceof SurfaceView) {
+                ((SurfaceView) canvas.view).setZOrderMediaOverlay(true);
+            }
+            mLocalContainer.addView(canvas.view);
+        }
     }
 }
