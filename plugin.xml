@@ -17,7 +17,7 @@
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml" />
     <source-file src="src/android/AgoraCall.java" target-dir="src/me/mazlum/agoracall/AgoraCall" />
-    <framework src="io.agora.rtc:voice-sdk:3.3.0" />
+    <framework src="io.agora.rtc:full-sdk:3.3.2" />
   </platform>
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
