@@ -4,9 +4,9 @@ exports.init = function (appId, callback) {
     exec(callback, null, 'AgoraCall', 'init', [appId]);
 };
 
-exports.join = function (accessToken, channelName, uid, success, error) {
+exports.join = function (accessToken, channelName, uid, channelType, success, error) {
     exec(success, error, 'AgoraCall', 'join', [
-        accessToken, channelName, uid
+        accessToken, channelName, uid, channelType
     ]);
 };
 
