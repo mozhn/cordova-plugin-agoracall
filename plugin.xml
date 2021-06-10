@@ -9,7 +9,7 @@
   <platform name="android">
     <config-file parent="/*" target="res/xml/config.xml">
       <feature name="AgoraCall">
-        <param name="android-package" value="me.mazlum.agoracall.AgoraCall" />
+        <param name="android-package" value="me.mazlum.agoracall" />
       </feature>
     </config-file>
     <config-file parent="/manifest" target="AndroidManifest.xml">
@@ -23,7 +23,8 @@
       <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml" />
-    <source-file src="src/android/AgoraCall.java" target-dir="src/me/mazlum/agoracall/AgoraCall" />
+    <source-file src="src/android/AgoraCall.java" target-dir="src/me/mazlum/agoracall" />
+    <source-file src="src/android/FakeR.java" target-dir="src/me/mazlum/agoracall" />
     <framework src="io.agora.rtc:full-sdk:3.3.2" />
   </platform>
   <platform name="ios">
