@@ -14,6 +14,13 @@
     </config-file>
     <config-file parent="/manifest" target="AndroidManifest.xml">
       <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+      <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.BLUETOOTH" />
+      <uses-permission android:name="android.permission.CAMERA" />
+      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     </config-file>
     <config-file parent="/*" target="AndroidManifest.xml" />
     <source-file src="src/android/AgoraCall.java" target-dir="src/me/mazlum/agoracall/AgoraCall" />
