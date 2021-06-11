@@ -57,6 +57,6 @@
       </feature>
     </config-file>
     <source-file src="src/ios/AgoraCall.m" />
-    <framework src="AgoraAudio_iOS" type="podspec" spec="3.3.0" />
+    <framework src="AgoraRtcEngine_iOS" type="podspec" spec="3.4.2" />
   </platform>
 </plugin>
