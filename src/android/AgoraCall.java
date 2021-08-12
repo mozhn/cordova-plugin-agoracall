@@ -90,7 +90,7 @@ public class AgoraCall extends CordovaPlugin {
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        setupRemoteVideo(uid);
+                        onRemoteUserLeft(uid);
                     }
                 });
             }
