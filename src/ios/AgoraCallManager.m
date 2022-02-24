@@ -1,7 +1,32 @@
 #import "AgoraCallManager.h"
-#import <AgoraRtcKit/AgoraRtcEngineKit.h>
 
 @implementation AgoraCallManager
+
+@synthesize token = _token;
+@synthesize channelName = _channelName;
+@synthesize userId = _userId;
+
+- (void)setToken:(NSString*)token {
+    _token = token;
+}
+- (NSString*)getToken {
+    return _token;
+}
+
+- (void)setChannelName:(NSString *)channelName {
+    _channelName = channelName;
+}
+- (NSString*)getChannelName {
+    return _channelName;
+}
+
+- (void)setUserId:(NSString *)userId {
+    _userId = userId;
+}
+- (NSString*)getUserId {
+    return _userId;
+}
+
 
 + (id)getInstance {
     static AgoraCallManager *sharedInstance = nil;
@@ -16,7 +41,7 @@
     self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appId delegate:self];
 }
 
-- (void)joinChannel:(NSString*)token channelName:(NSString*)channelName uid:(NSString*)uid{
+- (void)joinChannel {
     [self.agoraKit enableAudio];
     [self.agoraKit enableVideo];
     [self.agoraKit enableLocalAudio:true];
@@ -26,7 +51,12 @@
     mediaOptions.autoSubscribeAudio = true;
     mediaOptions.autoSubscribeVideo = true;
     
-    [self.agoraKit joinChannelByUserAccount:uid token:token channelId:channelName options:mediaOptions];
+    NSLog(@"token: %@", self.getToken);
+    [self.agoraKit
+        joinChannelByUserAccount:self.userId
+        token:self.token
+     	channelId:self.channelName
+        options:mediaOptions];
 }
 
 - (void)leaveFromChannel {

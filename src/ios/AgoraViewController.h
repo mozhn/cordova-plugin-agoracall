@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <AgoraRtcKit/AgoraRtcEngineKit.h>
-#import "AgoraCallPlugin.h"
+#import "AgoraCall.h"
 
 @interface AgoraViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *remoteView;
@@ -12,5 +12,4 @@
 @property (nonatomic, assign) BOOL isCamActive;
 
 - (void)requestRequiredPermissions;
-- (void)initAgora;
 @end

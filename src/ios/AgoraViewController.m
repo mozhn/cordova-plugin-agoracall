@@ -1,10 +1,8 @@
-#import <UIKit/UIKit.h>
 #import "AgoraViewController.h"
 
 @implementation AgoraViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initAgora];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -28,12 +26,8 @@
     videoCanvas.view = self.localView;
     [[AgoraCallManager getInstance] setLocalVideoCanvas:videoCanvas];
     
-    [[AgoraCallManager getInstance] joinChannel:@"006fa0f283dd55447488d68c9be1a0776abIABHYIZkPUWv22YU/E4eCEWH4E1RCg6aTjHBr0zldPKCQUcAdXoAAAAAEABkcFWNkKcYYgEAAQCPpxhi" channelName:@"Kanal1" uid:@"2"];
+    [[AgoraCallManager getInstance] joinChannel];
     NSLog(@"joined");
-}
-
-- (void)initAgora {
-    [[AgoraCallManager getInstance] init:@"fa0f283dd55447488d68c9be1a0776ab"];
 }
 
 - (void)leaveChannel {
