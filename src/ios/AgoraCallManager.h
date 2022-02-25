@@ -7,15 +7,9 @@
 
 @property (nonatomic, strong) AgoraRtcEngineKit *agoraKit;
 
-@property (nonatomic, weak) NSString *token;
-- (void)setToken:(NSString*)token;
-- (NSString*)getToken;
+@property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *channelName;
-- (void)setChannelName:(NSString*)channelName;
-- (NSString*)getChannelName;
 @property (nonatomic, strong) NSString *userId;
-- (void)setUserId:(NSString*)userId;
-- (NSString*)getUserId;
 
 
 + (id)getInstance;

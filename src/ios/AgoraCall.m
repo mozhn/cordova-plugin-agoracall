@@ -28,10 +28,10 @@
     NSString* channelName = [command.arguments objectAtIndex:1];
     NSString* uid = [command.arguments objectAtIndex:2];
     
-    [[AgoraCallManager getInstance] setToken:accessToken];
+    [[AgoraCallManager getInstance] setAccessToken:accessToken];
     [[AgoraCallManager getInstance] setChannelName:channelName];
     [[AgoraCallManager getInstance] setUserId:uid];
-    
+
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AgoraCall" bundle:nil];
     AgoraViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"AgoraViewController"];
     [self.viewController presentViewController:vc animated:YES completion:nil ];

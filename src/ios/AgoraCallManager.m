@@ -2,31 +2,9 @@
 
 @implementation AgoraCallManager
 
-@synthesize token = _token;
-@synthesize channelName = _channelName;
-@synthesize userId = _userId;
-
-- (void)setToken:(NSString*)token {
-    _token = token;
-}
-- (NSString*)getToken {
-    return _token;
-}
-
-- (void)setChannelName:(NSString *)channelName {
-    _channelName = channelName;
-}
-- (NSString*)getChannelName {
-    return _channelName;
-}
-
-- (void)setUserId:(NSString *)userId {
-    _userId = userId;
-}
-- (NSString*)getUserId {
-    return _userId;
-}
-
+@synthesize accessToken;
+@synthesize channelName;
+@synthesize userId;
 
 + (id)getInstance {
     static AgoraCallManager *sharedInstance = nil;
@@ -51,10 +29,9 @@
     mediaOptions.autoSubscribeAudio = true;
     mediaOptions.autoSubscribeVideo = true;
     
-    NSLog(@"token: %@", self.getToken);
     [self.agoraKit
         joinChannelByUserAccount:self.userId
-        token:self.token
+        token:self.accessToken
      	channelId:self.channelName
         options:mediaOptions];
 }
