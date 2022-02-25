@@ -6,13 +6,30 @@
 @synthesize channelName;
 @synthesize userId;
 
-+ (id)getInstance {
-    static AgoraCallManager *sharedInstance = nil;
++ (instancetype)shareInstance {
+    static AgoraCall *shareInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] init];
+        shareInstance = [[super allocWithZone:NULL] initPrivate];
     });
-    return sharedInstance;
+    return shareInstance;
+}
+
+- (instancetype)initPrivate {
+    self = [super init];
+    if (self) {
+
+    }
+    return self;
+}
+
++ (id)allocWithZone:(struct _NSZone *)zone {
+    return [AgoraCall shareInstance];
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
 }
 
 - (void)init:(NSString*)appId {
@@ -82,12 +99,14 @@
     videoCanvas.uid = uid;
     videoCanvas.renderMode = AgoraVideoRenderModeHidden;
     videoCanvas.view = [activeAgoraViewController remoteView];
-    [[AgoraCallManager getInstance] setRemoteVideoCanvas:videoCanvas];
-    NSLog(@"PARTICIPANT_CONNECTED");
+    [[AgoraCallManager shareInstance] setRemoteVideoCanvas:videoCanvas];
+    
+    [[AgoraCall shareInstance] logPluginMessage:@"PARTICIPANT_CONNECTED"];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinChannel:(NSString*)channel withUid:(NSUInteger)uid elapsed:(NSInteger) elapsed {
-    NSLog(@"CONNECTED");
+    
+    [[AgoraCall shareInstance] logPluginMessage:@"CONNECTED"];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didRegisteredLocalUser:(NSString *)userAccount withUid:(NSUInteger)uid {
@@ -122,5 +141,7 @@
 - (void)rtcEngineRequestToken:(AgoraRtcEngineKit *)engine {
     NSLog(@"TOKEN_EXPIRED");
 }
+
+
 @end
 

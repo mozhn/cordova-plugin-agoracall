@@ -12,7 +12,10 @@
 @property (nonatomic, strong) NSString *userId;
 
 
-+ (id)getInstance;
++ (instancetype)shareInstance;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+
 - (void)init:(NSString*)appId;
 - (void)joinChannel;
 - (void)leaveFromChannel;

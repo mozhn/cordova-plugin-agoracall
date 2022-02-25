@@ -4,6 +4,7 @@
 #import "AgoraCall.h"
 
 @interface AgoraViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UIView *remoteView;
 @property (weak, nonatomic) IBOutlet UIView *localView;
 @property (weak, nonatomic) IBOutlet UIButton *micButton;
