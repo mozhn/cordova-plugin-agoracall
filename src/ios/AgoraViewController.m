@@ -3,6 +3,7 @@
 @implementation AgoraViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self joinChannel];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -27,7 +28,6 @@
     [[AgoraCallManager getInstance] setLocalVideoCanvas:videoCanvas];
     
     [[AgoraCallManager getInstance] joinChannel];
-    NSLog(@"joined");
 }
 
 - (void)leaveChannel {
@@ -52,9 +52,6 @@
     }];
 }
 
-- (IBAction)joinButtonClick:(UIButton *)sender {
-    [self joinChannel];
-}
 - (IBAction)leaveButtonClick:(UIButton *)sender {
     [self leaveChannel];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
