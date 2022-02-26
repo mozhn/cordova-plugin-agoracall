@@ -7,7 +7,7 @@
 @synthesize userId;
 
 + (instancetype)shareInstance {
-    static AgoraCall *shareInstance = nil;
+    static AgoraCallManager *shareInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         shareInstance = [[super allocWithZone:NULL] initPrivate];
@@ -24,7 +24,7 @@
 }
 
 + (id)allocWithZone:(struct _NSZone *)zone {
-    return [AgoraCall shareInstance];
+    return [AgoraCallManager shareInstance];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -60,7 +60,7 @@
     [self.agoraKit enableLocalVideo:false];
     
     [self.agoraKit leaveChannel:^(AgoraChannelStats *stat){
-        NSLog(@"left from the channel");
+        [[AgoraCall shareInstance] logPluginMessage:@"DISCONNECTED"];
     }];
 }
 

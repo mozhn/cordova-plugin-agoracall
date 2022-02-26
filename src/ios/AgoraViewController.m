@@ -48,17 +48,16 @@
     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL grantedCamera)
     {
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL grantedAudio) {
-            NSLog(@"mic and cam access done");
+            NSLog(@"Microphone and Camera is activated.");
         }];
     }];
 }
 
 - (IBAction)leaveButtonClick:(UIButton *)sender {
-    [self leaveChannel];
+    //[self leaveChannel];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)cameraToggleButtonClick:(UIButton *)sender {
-    NSLog(@"cameraToggle");
     if (self.isCamActive) {
         [[AgoraCallManager  shareInstance] disableCam];
         for (UIView *view in [self.localView subviews])
@@ -74,7 +73,6 @@
     }
 }
 - (IBAction)microphoneToggleButtonClick:(UIButton *)sender {
-    NSLog(@"micToggle");
     if (self.isMicActive) {
         [[AgoraCallManager shareInstance] muteMic];
         [self.micButton setTitle:@"Mic Muted" forState:UIControlStateNormal];

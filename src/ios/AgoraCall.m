@@ -33,9 +33,9 @@
     
     [[AgoraCallManager shareInstance] init:appId];
 
-    [[AgoraCall shareInstance] setListenerCallbackID:command.callbackId];
+    [self setListenerCallbackID:command.callbackId];
     
-    [[AgoraCall shareInstance] logPluginMessage:@"ENGINE_CREATED"];
+    [self logPluginMessage:@"ENGINE_CREATED"];
 }
 
 - (void)join:(CDVInvokedUrlCommand*)command {
@@ -58,8 +58,7 @@
 - (void)logPluginMessage:(NSString*)message {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
     [pluginResult setKeepCallbackAsBool:YES];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:[[AgoraCall shareInstance] listenerCallbackID]];
-    NSLog(@"logPluginMessage listener callback id: %@, message: %@", [[AgoraCall shareInstance] listenerCallbackID], message);
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self listenerCallbackID]];
 }
 
 
