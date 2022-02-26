@@ -90,6 +90,14 @@
     [self.agoraKit enableLocalVideo:false];
 }
 
+- (void)enableSpeakerphone {
+    [self.agoraKit setEnableSpeakerphone:YES];
+}
+
+- (void)disableSpeakerphone {
+    [self.agoraKit setEnableSpeakerphone:NO];
+}
+
 - (void)setLocalVideoCanvas:(AgoraRtcVideoCanvas*)canvas {
     [self.agoraKit setupLocalVideo:canvas];
 }

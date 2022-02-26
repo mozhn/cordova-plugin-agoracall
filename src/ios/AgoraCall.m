@@ -69,6 +69,30 @@
     [self logPluginMessage:@"LEAVE"];
 }
 
+- (void)switchAudio:(CDVInvokedUrlCommand*)command {
+    NSNumber *status = [command.arguments objectAtIndex:0];
+
+    if ([status isEqual: @(YES)]){
+        [[AgoraCallManager shareInstance] muteMic];
+    } else {
+        [[AgoraCallManager shareInstance] unmuteMic];
+    }
+
+    [self logPluginMessage:@"SWITCH_AUDIO"];
+}
+
+- (void)switchSpeaker:(CDVInvokedUrlCommand*)command {
+    NSNumber *status = [command.arguments objectAtIndex:0];
+
+    if ([status isEqual: @(YES)]){
+        [[AgoraCallManager shareInstance] enableSpeakerphone];
+    } else {
+        [[AgoraCallManager shareInstance] disableSpeakerphone];
+    }
+    
+    [self logPluginMessage:@"SWITCH_SPEAKER"];
+}
+
 - (void)logPluginMessage:(NSString*)message {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
     [pluginResult setKeepCallbackAsBool:YES];

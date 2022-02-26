@@ -14,6 +14,8 @@
 - (void)init:(CDVInvokedUrlCommand*)command;
 - (void)join:(CDVInvokedUrlCommand*)command;
 - (void)leave:(CDVInvokedUrlCommand*)command;
+- (void)switchAudio:(CDVInvokedUrlCommand*)command;
+- (void)switchSpeaker:(CDVInvokedUrlCommand*)command;
 - (void)logPluginMessage:(NSString*)message;
 
 @end
