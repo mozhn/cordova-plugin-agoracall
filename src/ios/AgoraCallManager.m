@@ -110,11 +110,11 @@
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didRegisteredLocalUser:(NSString *)userAccount withUid:(NSUInteger)uid {
-    NSLog(@"USER_REGISTERED");
+    [[AgoraCall shareInstance] logPluginMessage:@"USER_REGISTERED"];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraChannelStats *)stats {
-    NSLog(@"DISCONNECTED");
+    [[AgoraCall shareInstance] logPluginMessage:@"DISCONNECTED"];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason {
@@ -124,22 +124,22 @@
     {
         [view removeFromSuperview];
     }
-    NSLog(@"PARTICIPANT_DISCONNECTED");
+    [[AgoraCall shareInstance] logPluginMessage:@"PARTICIPANT_DISCONNECTED"];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOccurWarning:(AgoraWarningCode)warningCode {
     NSString *code = [NSString stringWithFormat:@"WARNING_CODE_%ld", (long)warningCode];
 
-    NSLog(@"%@", code);
+    [[AgoraCall shareInstance] logPluginMessage:code];
 }
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOccurError:(AgoraErrorCode)errorCode {
     NSString *code = [NSString stringWithFormat:@"ERROR_CODE_%ld", (long)errorCode];
-    NSLog(@"%@", code);
+    [[AgoraCall shareInstance] logPluginMessage:code];
 }
 
 - (void)rtcEngineRequestToken:(AgoraRtcEngineKit *)engine {
-    NSLog(@"TOKEN_EXPIRED");
+    [[AgoraCall shareInstance] logPluginMessage:@"TOKEN_EXPIRED"];
 }
 
 
