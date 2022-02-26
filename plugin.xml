@@ -56,7 +56,15 @@
         <param name="ios-package" value="AgoraCall" />
       </feature>
     </config-file>
+    <header-file src="src/ios/AgoraCall.h" />
     <source-file src="src/ios/AgoraCall.m" />
+    <header-file src="src/ios/AgoraCallManager.h" />
+    <source-file src="src/ios/AgoraCallManager.m" />
+    <header-file src="src/ios/AgoraViewController.h" />
+    <source-file src="src/ios/AgoraViewController.m" />
+    
+    <resource-file src="src/ios/Resources/AgoraCall.storyboard" target="Resources/AgoraCall.storyboard" />
+
     <framework src="AgoraRtcEngine_iOS" type="podspec" spec="3.4.2" />
   </platform>
 </plugin>

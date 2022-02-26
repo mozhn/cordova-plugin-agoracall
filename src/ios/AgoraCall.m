@@ -1,146 +1,79 @@
-#import <Cordova/CDV.h>
-#import <AgoraRtcKit/AgoraRtcEngineKit.h>
-
-
-@interface AgoraCall : CDVPlugin<AgoraRtcEngineDelegate> {}
-
-@property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
-@property (nonatomic, strong) NSString *listenerCallbackID;
-
-- (void)init:(CDVInvokedUrlCommand*)command;
-- (void)join:(CDVInvokedUrlCommand*)command;
-- (void)leave:(CDVInvokedUrlCommand*)command;
-- (void)switchAudio:(CDVInvokedUrlCommand*)command;
-- (void)switchSpeaker:(CDVInvokedUrlCommand*)command;
-@end
+#import "AgoraCall.h"
 
 @implementation AgoraCall
 
-- (void)init:(CDVInvokedUrlCommand*)command
++ (instancetype)shareInstance {
+    static AgoraCall *shareInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        shareInstance = [[super allocWithZone:NULL] initPrivate];
+    });
+    return shareInstance;
+}
+
+- (instancetype)initPrivate {
+    self = [super init];
+    if (self) {
+
+    }
+    return self;
+}
+
++ (id)allocWithZone:(struct _NSZone *)zone {
+    return [AgoraCall shareInstance];
+}
+
+- (id)copyWithZone:(NSZone *)zone
 {
-    self.listenerCallbackID = command.callbackId;
+    return self;
+}
+
+- (void)init:(CDVInvokedUrlCommand*)command {
     NSString* appId = [command.arguments objectAtIndex:0];
+    
+    [[AgoraCallManager shareInstance] init:appId];
 
-    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appId delegate:self];
-
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"ENGINE_CREATED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
+    [self setListenerCallbackID:command.callbackId];
+    
+    [self logPluginMessage:@"ENGINE_CREATED"];
 }
 
 - (void)join:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = nil;
     NSString* accessToken = [command.arguments objectAtIndex:0];
     NSString* channelName = [command.arguments objectAtIndex:1];
     NSString* uid = [command.arguments objectAtIndex:2];
+    NSString* channelType = [command.arguments objectAtIndex:3];
+    
+    if([channelType length] == 0) {
+        channelType = @"voice";
+    }
+    
+    [[AgoraCallManager shareInstance] setAccessToken:accessToken];
+    [[AgoraCallManager shareInstance] setChannelName:channelName];
+    [[AgoraCallManager shareInstance] setUserId:uid];
+    [[AgoraCallManager shareInstance] setChannelType:channelType];
 
-    AgoraRtcChannelMediaOptions *mediaOptions = [AgoraRtcChannelMediaOptions new];
-    mediaOptions.autoSubscribeAudio = true;
-    mediaOptions.autoSubscribeVideo = false;
-
-    [self.agoraKit joinChannelByUserAccount:uid token:accessToken channelId:channelName options:mediaOptions];
-
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    if([channelType isEqualToString:@"video"]) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AgoraCall" bundle:nil];
+        AgoraViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"AgoraViewController"];
+        [self.viewController presentViewController:vc animated:YES completion:nil];
+    } else {
+        [[AgoraCallManager shareInstance] joinChannel];
+    }
+    
+    [self logPluginMessage:@"JOIN"];
 }
 
 - (void)leave:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = nil;
-
-    [self.agoraKit leaveChannel:nil];
-    [AgoraRtcEngineKit destroy];
-
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [[AgoraCallManager shareInstance] leaveFromChannel];
+    [self logPluginMessage:@"LEAVE"];
 }
 
-- (void)switchAudio:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = nil;
-    NSNumber *status = [command.arguments objectAtIndex:0];
-
-    if ([status isEqual: @(YES)]){
-        [self.agoraKit muteLocalAudioStream:YES];
-    } else {
-        [self.agoraKit muteLocalAudioStream:NO];
-    }
-
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+- (void)logPluginMessage:(NSString*)message {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
+    [pluginResult setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self listenerCallbackID]];
 }
 
-- (void)switchSpeaker:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = nil;
-    NSNumber *status = [command.arguments objectAtIndex:0];
-
-    if ([status isEqual: @(YES)]){
-        [self.agoraKit setEnableSpeakerphone:YES];
-    } else {
-        [self.agoraKit setEnableSpeakerphone:NO];
-    }
-    
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinChannel:(NSString*)channel withUid:(NSUInteger)uid elapsed:(NSInteger) elapsed {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"CONNECTED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didRegisteredLocalUser:(NSString *)userAccount withUid:(NSUInteger)uid {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"USER_REGISTERED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didLeaveChannelWithStats:(AgoraChannelStats *)stats {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"DISCONNECTED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didJoinedOfUid:(NSUInteger)uid elapsed:(NSInteger)elapsed {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"PARTICIPANT_CONNECTED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraUserOfflineReason)reason {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"PARTICIPANT_DISCONNECTED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOccurWarning:(AgoraWarningCode)warningCode {
-    NSString *code = [NSString stringWithFormat:@"WARNING_CODE_%ld", (long)warningCode];
-
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:code];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngine:(AgoraRtcEngineKit *)engine didOccurError:(AgoraErrorCode)errorCode {
-    NSString *code = [NSString stringWithFormat:@"ERROR_CODE_%ld", (long)errorCode];
-
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:code];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
-
-- (void)rtcEngineRequestToken:(AgoraRtcEngineKit *)engine {
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@"TOKEN_EXPIRED"];
-    [result setKeepCallbackAsBool:YES];
-
-    [self.commandDelegate sendPluginResult:result callbackId:self.listenerCallbackID];
-}
 
 @end
