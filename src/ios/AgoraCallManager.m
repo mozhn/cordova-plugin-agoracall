@@ -37,14 +37,19 @@
 }
 
 - (void)joinChannel {
+    [self requestRequiredPermissions];
+    
     [self.agoraKit enableAudio];
-    [self.agoraKit enableVideo];
     [self.agoraKit enableLocalAudio:true];
-    [self.agoraKit enableLocalVideo:true];
     
     AgoraRtcChannelMediaOptions *mediaOptions = [AgoraRtcChannelMediaOptions new];
     mediaOptions.autoSubscribeAudio = true;
-    mediaOptions.autoSubscribeVideo = true;
+    
+    if([self.channelType isEqualToString:@"video"]) {
+        [self.agoraKit enableVideo];
+        [self.agoraKit enableLocalVideo:true];
+        mediaOptions.autoSubscribeVideo = true;
+    }
     
     [self.agoraKit
         joinChannelByUserAccount:self.userId
@@ -88,6 +93,15 @@
 
 - (void)setRemoteVideoCanvas:(AgoraRtcVideoCanvas*)canvas {
     [self.agoraKit setupRemoteVideo:canvas];
+}
+
+- (void)requestRequiredPermissions {
+    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL grantedCamera)
+    {
+        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL grantedAudio) {
+            NSLog(@"Microphone and Camera is activated.");
+        }];
+    }];
 }
 
 ///

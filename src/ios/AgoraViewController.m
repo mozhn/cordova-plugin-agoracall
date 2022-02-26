@@ -14,8 +14,6 @@
 }
 
 - (void)joinChannel {
-    [self requestRequiredPermissions];
-    
     self.isMicActive = YES;
     [self.micButton setTitle:@"Mic Unmuted" forState:UIControlStateNormal];
     
@@ -42,15 +40,6 @@
     {
         [view removeFromSuperview];
     }
-}
-
-- (void)requestRequiredPermissions {
-    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL grantedCamera)
-    {
-        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL grantedAudio) {
-            NSLog(@"Microphone and Camera is activated.");
-        }];
-    }];
 }
 
 - (IBAction)leaveButtonClick:(UIButton *)sender {

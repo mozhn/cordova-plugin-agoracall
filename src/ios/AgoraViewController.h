@@ -12,5 +12,4 @@
 @property (nonatomic, assign) BOOL isMicActive;
 @property (nonatomic, assign) BOOL isCamActive;
 
-- (void)requestRequiredPermissions;
 @end

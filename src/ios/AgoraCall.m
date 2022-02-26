@@ -44,15 +44,29 @@
     NSString* uid = [command.arguments objectAtIndex:2];
     NSString* channelType = [command.arguments objectAtIndex:3];
     
+    if([channelType length] == 0) {
+        channelType = @"voice";
+    }
+    
     [[AgoraCallManager shareInstance] setAccessToken:accessToken];
     [[AgoraCallManager shareInstance] setChannelName:channelName];
     [[AgoraCallManager shareInstance] setUserId:uid];
+    [[AgoraCallManager shareInstance] setChannelType:channelType];
 
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AgoraCall" bundle:nil];
-    AgoraViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"AgoraViewController"];
-    [self.viewController presentViewController:vc animated:YES completion:nil];
-
+    if([channelType isEqualToString:@"video"]) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"AgoraCall" bundle:nil];
+        AgoraViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"AgoraViewController"];
+        [self.viewController presentViewController:vc animated:YES completion:nil];
+    } else {
+        [[AgoraCallManager shareInstance] joinChannel];
+    }
+    
     [self logPluginMessage:@"JOIN"];
+}
+
+- (void)leave:(CDVInvokedUrlCommand*)command {
+    [[AgoraCallManager shareInstance] leaveFromChannel];
+    [self logPluginMessage:@"LEAVE"];
 }
 
 - (void)logPluginMessage:(NSString*)message {

@@ -10,6 +10,7 @@
 @property (nonatomic, strong) NSString *accessToken;
 @property (nonatomic, strong) NSString *channelName;
 @property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) NSString *channelType;
 
 
 + (instancetype)shareInstance;
@@ -25,5 +26,6 @@
 - (void)disableCam;
 - (void)setLocalVideoCanvas:(AgoraRtcVideoCanvas*)canvas;
 - (void)setRemoteVideoCanvas:(AgoraRtcVideoCanvas*)canvas;
+- (void)requestRequiredPermissions;
 
 @end

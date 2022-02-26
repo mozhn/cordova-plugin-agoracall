@@ -13,6 +13,7 @@
 
 - (void)init:(CDVInvokedUrlCommand*)command;
 - (void)join:(CDVInvokedUrlCommand*)command;
+- (void)leave:(CDVInvokedUrlCommand*)command;
 - (void)logPluginMessage:(NSString*)message;
 
 @end
