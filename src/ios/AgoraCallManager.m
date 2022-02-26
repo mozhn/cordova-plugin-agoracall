@@ -60,9 +60,12 @@
 
 - (void)leaveFromChannel {
     [self.agoraKit disableAudio];
-    [self.agoraKit disableVideo];
     [self.agoraKit enableLocalAudio:false];
-    [self.agoraKit enableLocalVideo:false];
+    
+    if([self.channelType isEqualToString:@"video"]) {
+        [self.agoraKit disableVideo];
+        [self.agoraKit enableLocalVideo:false];
+    }
     
     [self.agoraKit leaveChannel:^(AgoraChannelStats *stat){
         [[AgoraCall shareInstance] logPluginMessage:@"DISCONNECTED"];
