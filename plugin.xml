@@ -65,6 +65,19 @@
     
     <resource-file src="src/ios/Resources/AgoraCall.storyboard" target="Resources/AgoraCall.storyboard" />
 
+    <resource-file src="src/ios/Resources/icons/btn_endcall_normal.png" target="Resources/icons/btn_endcall_normal.png" />
+    <resource-file src="src/ios/Resources/icons/btn_endcall_pressed.png" target="Resources/icons/btn_endcall_pressed.png" />
+
+    <resource-file src="src/ios/Resources/icons/btn_mute_normal.png" target="Resources/icons/btn_mute_normal.png" />
+    <resource-file src="src/ios/Resources/icons/btn_mute_pressed.png" target="Resources/icons/btn_mute_pressed.png" />
+
+    <resource-file src="src/ios/Resources/icons/btn_switch_camera_normal.png" target="Resources/icons/btn_switch_camera_normal.png" />
+    <resource-file src="src/ios/Resources/icons/btn_switch_camera_pressed.png" target="Resources/icons/btn_switch_camera_pressed.png" />
+
+    <resource-file src="src/ios/Resources/icons/btn_unmute_normal.png" target="Resources/icons/btn_unmute_normal.png" />
+    <resource-file src="src/ios/Resources/icons/btn_unmute_pressed.png" target="Resources/icons/btn_unmute_pressed.png" />
+
+
     <framework src="AgoraRtcEngine_iOS" type="podspec" spec="3.4.2" />
   </platform>
 </plugin>
