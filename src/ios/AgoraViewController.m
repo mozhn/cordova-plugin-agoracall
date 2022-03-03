@@ -5,20 +5,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self joinChannel];
+    
+    [self.leaveButton setBackgroundImage:[UIImage imageNamed:@"btn_endcall_normal.png"] forState:UIControlStateNormal];
+    [self.leaveButton setBackgroundImage:[UIImage imageNamed:@"btn_endcall_pressed.png"] forState:UIControlStateHighlighted];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     self.remoteView.frame = self.view.bounds;
-    self.localView.frame = CGRectMake(self.view.bounds.size.width - 90, 0, 90, 160);
+    self.localView.frame = CGRectMake(self.view.bounds.size.width - 110, 30, 100, 170);
 }
 
 - (void)joinChannel {
     self.isMicActive = YES;
-    [self.micButton setTitle:@"Mic Unmuted" forState:UIControlStateNormal];
     
     self.isCamActive = YES;
-    [self.camButton setTitle:@"Cam Enabled" forState:UIControlStateNormal];
     
     AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
     videoCanvas.uid = 2;
@@ -43,7 +44,6 @@
 }
 
 - (IBAction)leaveButtonClick:(UIButton *)sender {
-    //[self leaveChannel];
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)cameraToggleButtonClick:(UIButton *)sender {
@@ -53,22 +53,33 @@
         {
             [view removeFromSuperview];
         }
-        [self.camButton setTitle:@"Cam Disabled" forState:UIControlStateNormal];
+        [self.camButton setBackgroundImage:[UIImage imageNamed:@"btn_switch_camera_pressed.png"] forState:UIControlStateNormal];
         self.isCamActive = NO;
     } else {
         [[AgoraCallManager shareInstance] enableCam];
-        [self.camButton setTitle:@"Cam Enabled" forState:UIControlStateNormal];
+        [self.camButton setBackgroundImage:[UIImage imageNamed:@"btn_switch_camera_normal.png"] forState:UIControlStateNormal];
         self.isCamActive = YES;
+    }
+}
+- (IBAction)camSwitchButtonClick:(UIButton *)sender {
+    if (self.isFrontCamActive) {
+        [[AgoraCallManager shareInstance] switchCam];
+        [self.camSwitchButton setBackgroundImage:[UIImage imageNamed:@"btn_switch_camera_pressed.png"] forState:UIControlStateNormal];
+        self.isFrontCamActive = NO;
+    } else {
+        [[AgoraCallManager shareInstance] switchCam];
+        [self.camSwitchButton setBackgroundImage:[UIImage imageNamed:@"btn_switch_camera_normal.png"] forState:UIControlStateNormal];
+        self.isFrontCamActive = YES;
     }
 }
 - (IBAction)microphoneToggleButtonClick:(UIButton *)sender {
     if (self.isMicActive) {
         [[AgoraCallManager shareInstance] muteMic];
-        [self.micButton setTitle:@"Mic Muted" forState:UIControlStateNormal];
+        [self.micButton setBackgroundImage:[UIImage imageNamed:@"btn_mute_normal.png"] forState:UIControlStateNormal];
         self.isMicActive = NO;
     } else {
         [[AgoraCallManager shareInstance] unmuteMic];
-        [self.micButton setTitle:@"Mic Unmuted" forState:UIControlStateNormal];
+        [self.micButton setBackgroundImage:[UIImage imageNamed:@"btn_unmute_normal.png"] forState:UIControlStateNormal];
         self.isMicActive = YES;
     }
 }

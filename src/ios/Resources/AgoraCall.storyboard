@@ -12,62 +12,108 @@
         <!--Agora View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="AgoraViewController" id="Y6W-OH-hqX" customClass="AgoraViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                <viewController storyboardIdentifier="AgoraViewController" extendedLayoutIncludesOpaqueBars="YES" modalPresentationStyle="fullScreen" id="Y6W-OH-hqX" customClass="AgoraViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFit" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="remoteView" translatesAutoresizingMaskIntoConstraints="NO" id="Uxl-of-a45">
-                                <rect key="frame" x="20" y="53" width="356" height="396"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="462"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="localView" translatesAutoresizingMaskIntoConstraints="NO" id="dDW-Bo-ilH">
-                                <rect key="frame" x="284" y="32" width="110" height="170"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="localView" translatesAutoresizingMaskIntoConstraints="NO" id="dDW-Bo-ilH">
+                                <rect key="frame" x="293" y="14" width="110" height="170"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EgO-y9-VPl">
-                                <rect key="frame" x="20" y="480" width="77" height="72"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Mic"/>
-                                <connections>
-                                    <action selector="microphoneToggleButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Xcy-xN-8Vh"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egj-Ru-ECD">
-                                <rect key="frame" x="119" y="480" width="133" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Leave">
-                                    <backgroundConfiguration key="background">
-                                        <color key="backgroundColor" systemColor="systemRedColor"/>
-                                    </backgroundConfiguration>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="leaveButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="sld-BY-hUX"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tzc-ja-k4P">
-                                <rect key="frame" x="272" y="480" width="86" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Cam"/>
-                                <connections>
-                                    <action selector="cameraToggleButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qUk-om-tXf"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVe-99-f7T">
+                                <rect key="frame" x="53" y="655" width="308" height="73"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egj-Ru-ECD">
+                                        <rect key="frame" x="75" y="0.66666666666662877" width="73" height="72"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="73" id="1Cf-dc-W1P"/>
+                                            <constraint firstAttribute="height" constant="72" id="Rz6-Ch-WIr"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title=" " backgroundImage="btn_endcall_normal.png"/>
+                                        <connections>
+                                            <action selector="leaveButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="sld-BY-hUX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EgO-y9-VPl">
+                                        <rect key="frame" x="0.0" y="0.66666666666662877" width="73" height="72"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="ddi-Lt-ZWE"/>
+                                            <constraint firstAttribute="width" constant="73" id="pla-aV-EXs"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title=" " backgroundImage="btn_unmute_normal.png"/>
+                                        <connections>
+                                            <action selector="microphoneToggleButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Xcy-xN-8Vh"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tzc-ja-k4P">
+                                        <rect key="frame" x="156" y="0.66666666666662877" width="72.999999999999972" height="72"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="7Km-lr-cxe"/>
+                                            <constraint firstAttribute="width" constant="73" id="VYm-se-Fqx"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title=" " backgroundImage="btn_switch_camera_normal.png"/>
+                                        <connections>
+                                            <action selector="cameraToggleButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qUk-om-tXf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJJ-eD-FIG" userLabel="Cam Switch Button">
+                                        <rect key="frame" x="235" y="0.66666666666662877" width="73" height="72"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="6hg-hb-OTx"/>
+                                            <constraint firstAttribute="width" constant="73" id="BtA-qM-DE5"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" backgroundImage="btn_switch_camera_normal.png"/>
+                                        <connections>
+                                            <action selector="camSwitchButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Scx-GB-5Xz"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="leading" secondItem="EgO-y9-VPl" secondAttribute="trailing" constant="10" id="AM7-X7-FtH"/>
+                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="IGN-Am-Bj2"/>
+                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="leading" secondItem="egj-Ru-ECD" secondAttribute="trailing" constant="10" id="IIH-Bb-jrk"/>
+                                    <constraint firstItem="VJJ-eD-FIG" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="SE5-Jr-mpI"/>
+                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="leading" secondItem="egj-Ru-ECD" secondAttribute="trailing" constant="8" id="acS-YX-cMB"/>
+                                    <constraint firstAttribute="height" constant="73" id="e7v-4R-iFD"/>
+                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="jdQ-j8-nIb"/>
+                                    <constraint firstItem="EgO-y9-VPl" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="jmq-az-zKs"/>
+                                    <constraint firstAttribute="width" constant="308" id="p7D-ia-NHf"/>
+                                    <constraint firstItem="VJJ-eD-FIG" firstAttribute="leading" secondItem="Tzc-ja-k4P" secondAttribute="trailing" constant="10" id="qxJ-i6-7Jg"/>
+                                </constraints>
+                            </view>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <viewLayoutGuide key="safeArea" id="EGH-IO-dxT"/>
                         <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" button="YES"/>
                             <bool key="isElement" value="NO"/>
                         </accessibility>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dDW-Bo-ilH" secondAttribute="trailing" constant="11" id="F4i-nN-OdP"/>
+                            <constraint firstItem="nVe-99-f7T" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Jp6-nv-ctL"/>
+                            <constraint firstItem="dDW-Bo-ilH" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="293" id="Nfi-XA-tkE"/>
+                            <constraint firstItem="dDW-Bo-ilH" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="11" id="RlJ-0j-56H"/>
+                            <constraint firstItem="dDW-Bo-ilH" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="11" id="dOW-8k-Zsd"/>
+                            <constraint firstItem="EGH-IO-dxT" firstAttribute="bottom" secondItem="nVe-99-f7T" secondAttribute="bottom" constant="8" id="s5n-8i-hJB"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="camButton" destination="Tzc-ja-k4P" id="Skz-ey-Mfb"/>
+                        <outlet property="camSwitchButton" destination="VJJ-eD-FIG" id="Vkf-4R-HSY"/>
+                        <outlet property="leaveButton" destination="egj-Ru-ECD" id="i7Y-DW-vsv"/>
                         <outlet property="localView" destination="dDW-Bo-ilH" id="pOM-mD-VlF"/>
                         <outlet property="micButton" destination="EgO-y9-VPl" id="xg0-7G-S6e"/>
                         <outlet property="remoteView" destination="Uxl-of-a45" id="PUL-ob-zr5"/>
@@ -79,11 +125,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="btn_endcall_normal.png" width="292" height="292"/>
+        <image name="btn_switch_camera_normal.png" width="220" height="220"/>
+        <image name="btn_unmute_normal.png" width="220" height="220"/>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

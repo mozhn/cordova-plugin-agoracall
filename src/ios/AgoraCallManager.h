@@ -26,6 +26,7 @@
 - (void)disableCam;
 - (void)enableSpeakerphone;
 - (void)disableSpeakerphone;
+- (void)switchCam;
 - (void)setLocalVideoCanvas:(AgoraRtcVideoCanvas*)canvas;
 - (void)setRemoteVideoCanvas:(AgoraRtcVideoCanvas*)canvas;
 - (void)requestRequiredPermissions;
