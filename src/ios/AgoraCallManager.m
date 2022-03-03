@@ -98,6 +98,10 @@
     [self.agoraKit setEnableSpeakerphone:NO];
 }
 
+- (void)switchCam {
+    [self.agoraKit switchCamera];
+}
+
 - (void)setLocalVideoCanvas:(AgoraRtcVideoCanvas*)canvas {
     [self.agoraKit setupLocalVideo:canvas];
 }

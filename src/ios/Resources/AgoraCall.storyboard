@@ -22,15 +22,15 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" restorationIdentifier="localView" translatesAutoresizingMaskIntoConstraints="NO" id="dDW-Bo-ilH">
+                            <view contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="localView" translatesAutoresizingMaskIntoConstraints="NO" id="dDW-Bo-ilH">
                                 <rect key="frame" x="293" y="14" width="110" height="170"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVe-99-f7T">
                                 <rect key="frame" x="53" y="655" width="308" height="73"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egj-Ru-ECD">
-                                        <rect key="frame" x="117.66666666666666" y="0.66666666666662877" width="73" height="72"/>
+                                    <button opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egj-Ru-ECD">
+                                        <rect key="frame" x="75" y="0.66666666666662877" width="73" height="72"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" image="YES"/>
                                         </accessibility>
@@ -45,7 +45,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EgO-y9-VPl">
-                                        <rect key="frame" x="17.666666666666671" y="1" width="73" height="72"/>
+                                        <rect key="frame" x="0.0" y="0.66666666666662877" width="73" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="72" id="ddi-Lt-ZWE"/>
                                             <constraint firstAttribute="width" constant="73" id="pla-aV-EXs"/>
@@ -57,7 +57,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tzc-ja-k4P">
-                                        <rect key="frame" x="217.66666666666669" y="1" width="73" height="73"/>
+                                        <rect key="frame" x="156" y="0.66666666666662877" width="72.999999999999972" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="72" id="7Km-lr-cxe"/>
                                             <constraint firstAttribute="width" constant="73" id="VYm-se-Fqx"/>
@@ -68,21 +68,30 @@
                                             <action selector="cameraToggleButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qUk-om-tXf"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJJ-eD-FIG" userLabel="Cam Switch Button">
+                                        <rect key="frame" x="235" y="0.66666666666662877" width="73" height="72"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="6hg-hb-OTx"/>
+                                            <constraint firstAttribute="width" constant="73" id="BtA-qM-DE5"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" backgroundImage="btn_switch_camera_normal.png"/>
+                                        <connections>
+                                            <action selector="camSwitchButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Scx-GB-5Xz"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="73" id="DiB-WB-9TU"/>
-                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="leading" secondItem="EgO-y9-VPl" secondAttribute="trailing" constant="27" id="IaN-Rw-CBA"/>
-                                    <constraint firstAttribute="width" secondItem="nVe-99-f7T" secondAttribute="height" multiplier="308:73" id="JLL-Yc-g7o"/>
-                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="centerX" secondItem="nVe-99-f7T" secondAttribute="centerX" id="Kf6-D9-bOb"/>
-                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="leading" secondItem="egj-Ru-ECD" secondAttribute="trailing" constant="27" id="LAS-hZ-Y4w"/>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="308" id="LBT-Ii-veA"/>
-                                    <constraint firstAttribute="width" secondItem="nVe-99-f7T" secondAttribute="height" multiplier="308:73" id="PqY-1k-JwZ"/>
-                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="VWe-7L-F8X"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="308" id="awT-o4-JGV"/>
-                                    <constraint firstAttribute="width" constant="308" id="bPA-cG-SSP"/>
-                                    <constraint firstAttribute="height" constant="73" id="j5S-L0-XGI"/>
-                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="73" id="jX1-AJ-kzK"/>
-                                    <constraint firstAttribute="width" secondItem="nVe-99-f7T" secondAttribute="height" multiplier="308:73" id="tQT-sN-0oB"/>
+                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="leading" secondItem="EgO-y9-VPl" secondAttribute="trailing" constant="10" id="AM7-X7-FtH"/>
+                                    <constraint firstItem="egj-Ru-ECD" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="IGN-Am-Bj2"/>
+                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="leading" secondItem="egj-Ru-ECD" secondAttribute="trailing" constant="10" id="IIH-Bb-jrk"/>
+                                    <constraint firstItem="VJJ-eD-FIG" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="SE5-Jr-mpI"/>
+                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="leading" secondItem="egj-Ru-ECD" secondAttribute="trailing" constant="8" id="acS-YX-cMB"/>
+                                    <constraint firstAttribute="height" constant="73" id="e7v-4R-iFD"/>
+                                    <constraint firstItem="Tzc-ja-k4P" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="jdQ-j8-nIb"/>
+                                    <constraint firstItem="EgO-y9-VPl" firstAttribute="centerY" secondItem="nVe-99-f7T" secondAttribute="centerY" id="jmq-az-zKs"/>
+                                    <constraint firstAttribute="width" constant="308" id="p7D-ia-NHf"/>
+                                    <constraint firstItem="VJJ-eD-FIG" firstAttribute="leading" secondItem="Tzc-ja-k4P" secondAttribute="trailing" constant="10" id="qxJ-i6-7Jg"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -98,12 +107,12 @@
                             <constraint firstItem="dDW-Bo-ilH" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="293" id="Nfi-XA-tkE"/>
                             <constraint firstItem="dDW-Bo-ilH" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="11" id="RlJ-0j-56H"/>
                             <constraint firstItem="dDW-Bo-ilH" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" constant="11" id="dOW-8k-Zsd"/>
-                            <constraint firstAttribute="bottom" secondItem="nVe-99-f7T" secondAttribute="bottom" constant="8" id="fLC-bF-End"/>
-                            <constraint firstItem="nVe-99-f7T" firstAttribute="top" secondItem="dDW-Bo-ilH" secondAttribute="bottom" constant="8" symbolic="YES" id="rM4-1j-XmM"/>
+                            <constraint firstItem="EGH-IO-dxT" firstAttribute="bottom" secondItem="nVe-99-f7T" secondAttribute="bottom" constant="8" id="s5n-8i-hJB"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="camButton" destination="Tzc-ja-k4P" id="Skz-ey-Mfb"/>
+                        <outlet property="camSwitchButton" destination="VJJ-eD-FIG" id="Vkf-4R-HSY"/>
                         <outlet property="leaveButton" destination="egj-Ru-ECD" id="i7Y-DW-vsv"/>
                         <outlet property="localView" destination="dDW-Bo-ilH" id="pOM-mD-VlF"/>
                         <outlet property="micButton" destination="EgO-y9-VPl" id="xg0-7G-S6e"/>
