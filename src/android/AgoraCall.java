@@ -16,13 +16,13 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.models.ChannelMediaOptions;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.ChannelMediaOptions;
 
-import io.agora.rtc.video.VideoCanvas;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.video.VideoCanvas;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
 
 public class AgoraCall extends CordovaPlugin {
     private static final String LOG_TAG = "AgoraCall";
@@ -103,7 +103,7 @@ public class AgoraCall extends CordovaPlugin {
             callbackContext.sendPluginResult(result);
         }
 
-        @Override
+        //@Override
         public void onWarning(int warn) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, "WARNING_CODE_" + warn);
             result.setKeepCallback(true);
