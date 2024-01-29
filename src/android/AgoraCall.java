@@ -9,6 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.ContentView;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 
@@ -16,13 +18,13 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.models.ChannelMediaOptions;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.ChannelMediaOptions;
 
-import io.agora.rtc.video.VideoCanvas;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.video.VideoCanvas;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
 
 public class AgoraCall extends CordovaPlugin {
     private static final String LOG_TAG = "AgoraCall";
@@ -41,6 +43,8 @@ public class AgoraCall extends CordovaPlugin {
     private boolean mMuted;
     private String channelType;
     private FakeR fakeR;
+
+    private SurfaceView localView, remoteView;
 
     private final IRtcEngineEventHandler rtcEventHandler = new IRtcEngineEventHandler() {
         @Override
@@ -103,7 +107,7 @@ public class AgoraCall extends CordovaPlugin {
             callbackContext.sendPluginResult(result);
         }
 
-        @Override
+
         public void onWarning(int warn) {
             PluginResult result = new PluginResult(PluginResult.Status.OK, "WARNING_CODE_" + warn);
             result.setKeepCallback(true);
@@ -197,6 +201,7 @@ public class AgoraCall extends CordovaPlugin {
                         fakeR.getLayout("activity_video_chat_view")
                     );
 
+
                     mLocalContainer = cordova.getActivity().findViewById(
                         fakeR.getId("local_video_view_container")
                     );
@@ -223,9 +228,16 @@ public class AgoraCall extends CordovaPlugin {
 
     private View getView() {
         try {
-            return (View)webView.getClass().getMethod("getView").invoke(webView);
+            View webViewView = (View) webView.getClass().getMethod("getView").invoke(webView);
+
+            if (webViewView.getParent() != null && webViewView.getParent() instanceof ViewGroup) {
+                ViewGroup parent = (ViewGroup) webViewView.getParent();
+                parent.removeView(webViewView);
+            }
+
+            return webViewView;
         } catch (Exception e) {
-            return (View)webView;
+            return (View) webView;
         }
     }
 
@@ -354,14 +366,19 @@ public class AgoraCall extends CordovaPlugin {
     }
 
     private ViewGroup removeFromParent(VideoCanvas canvas) {
-        if (canvas != null) {
-            ViewParent parent = canvas.view.getParent();
-            if (parent != null) {
-                ViewGroup group = (ViewGroup) parent;
-                group.removeView(canvas.view);
-                return group;
+        try {
+            if (canvas != null) {
+                ViewParent parent = canvas.view.getParent();
+                if (parent != null) {
+                    ViewGroup group = (ViewGroup) parent;
+                    group.removeView(canvas.view);
+                    return group;
+                }
             }
+        } catch (Exception e) {
+            return null;
         }
+
         return null;
     }
 
@@ -383,14 +400,14 @@ public class AgoraCall extends CordovaPlugin {
             @Override
             public void run() {
                 try {
-                    SurfaceView view = RtcEngine.CreateRendererView(
+                    localView = RtcEngine.CreateRendererView(
                         cordova.getActivity().getBaseContext()
                     );
-                    view.setZOrderMediaOverlay(true);
-                    view.setBackgroundResource(fakeR.getDrawable("round_local_frame"));
-                    mLocalContainer.addView(view);
+                    localView.setZOrderMediaOverlay(true);
+                    localView.setBackgroundResource(fakeR.getDrawable("round_local_frame"));
+                    mLocalContainer.addView(localView);
 
-                    mLocalVideo = new VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, 0);
+                    mLocalVideo = new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, 0);
                     rtcEngine.setupLocalVideo(mLocalVideo);
                 } catch (Exception error) {
                     Log.e(LOG_TAG, Log.getStackTraceString(error));
@@ -432,12 +449,18 @@ public class AgoraCall extends CordovaPlugin {
             public void run() {
                 if (rtcEngine != null) {
                     if (channelType.contains("video")) {
-                        removeFromParent(mLocalVideo);
-                        mLocalVideo = null;
                         removeFromParent(mRemoteVideo);
                         mRemoteVideo = null;
 
-                        cordova.getActivity().setContentView(getView());
+                        removeFromParent(mLocalVideo);
+                        mLocalVideo = null;
+
+                        try {
+                            cordova.getActivity().setContentView(getView());
+                        } catch (Exception err) {
+                            System.out.println("Hata");
+                            err.printStackTrace();
+                        }
                     }
 
                     rtcEngine.leaveChannel();
