@@ -63,7 +63,7 @@
                                             <constraint firstAttribute="width" constant="73" id="VYm-se-Fqx"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title=" " backgroundImage="btn_switch_camera_normal.png"/>
+                                        <state key="normal" title=" " backgroundImage="btn_camera_toggle_normal.png"/>
                                         <connections>
                                             <action selector="cameraToggleButtonClick:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qUk-om-tXf"/>
                                         </connections>
@@ -125,6 +125,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="btn_camera_toggle_normal.png" width="220" height="220"/>
         <image name="btn_endcall_normal.png" width="292" height="292"/>
         <image name="btn_switch_camera_normal.png" width="220" height="220"/>
         <image name="btn_unmute_normal.png" width="220" height="220"/>
