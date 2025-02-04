@@ -77,6 +77,8 @@
     <resource-file src="src/ios/Resources/icons/btn_unmute_normal.png" target="Resources/icons/btn_unmute_normal.png" />
     <resource-file src="src/ios/Resources/icons/btn_unmute_pressed.png" target="Resources/icons/btn_unmute_pressed.png" />
 
+    <resource-file src="src/ios/Resources/icons/btn_camera_toggle_normal.png" target="Resources/icons/btn_camera_toggle_normal.png" />
+    <resource-file src="src/ios/Resources/icons/btn_camera_toggle_pressed.png" target="Resources/icons/btn_camera_toggle_pressed.png" />
 
     <framework src="AgoraRtcEngine_iOS" type="podspec" spec="3.6.0" />
   </platform>
