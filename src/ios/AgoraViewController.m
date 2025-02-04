@@ -53,11 +53,11 @@
         {
             [view removeFromSuperview];
         }
-        [self.camButton setBackgroundImage:[UIImage imageNamed:@"btn_switch_camera_pressed.png"] forState:UIControlStateNormal];
+        [self.camButton setBackgroundImage:[UIImage imageNamed:@"btn_camera_toggle_pressed.png"] forState:UIControlStateNormal];
         self.isCamActive = NO;
     } else {
         [[AgoraCallManager shareInstance] enableCam];
-        [self.camButton setBackgroundImage:[UIImage imageNamed:@"btn_switch_camera_normal.png"] forState:UIControlStateNormal];
+        [self.camButton setBackgroundImage:[UIImage imageNamed:@"btn_camera_toggle_normal.png"] forState:UIControlStateNormal];
         self.isCamActive = YES;
     }
 }
