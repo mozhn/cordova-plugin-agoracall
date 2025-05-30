@@ -48,7 +48,7 @@
     <resource-file src="src/android/res/drawable-xxhdpi/btn_unmute_normal.png" target="res/drawable-xxhdpi/btn_unmute_normal.png" />
     <resource-file src="src/android/res/drawable-xxhdpi/btn_unmute_pressed.png" target="res/drawable-xxhdpi/btn_unmute_pressed.png" />
 
-    <framework src="io.agora.rtc:full-sdk:4.2.2" />
+    <framework src="io.agora.rtc:full-sdk:4.5.2" />
   </platform>
   <platform name="ios">
     <config-file parent="/*" target="config.xml">
@@ -80,6 +80,6 @@
     <resource-file src="src/ios/Resources/icons/btn_camera_toggle_normal.png" target="Resources/icons/btn_camera_toggle_normal.png" />
     <resource-file src="src/ios/Resources/icons/btn_camera_toggle_pressed.png" target="Resources/icons/btn_camera_toggle_pressed.png" />
 
-    <framework src="AgoraRtcEngine_iOS" type="podspec" spec="3.6.0" />
+    <framework src="AgoraRtcEngine_iOS" type="podspec" spec="4.5.2" />
   </platform>
 </plugin>
