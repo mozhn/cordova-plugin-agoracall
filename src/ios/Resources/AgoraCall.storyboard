@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,7 +12,7 @@
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="AgoraViewController" extendedLayoutIncludesOpaqueBars="YES" modalPresentationStyle="fullScreen" id="Y6W-OH-hqX" customClass="AgoraViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleAspectFit" id="5EZ-qb-Rvc">
+                    <view key="view" contentMode="scaleAspectFit" ambiguous="YES" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -22,11 +21,17 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemGrayColor"/>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" restorationIdentifier="localView" translatesAutoresizingMaskIntoConstraints="NO" id="dDW-Bo-ilH">
-                                <rect key="frame" x="293" y="14" width="110" height="170"/>
+                            <view contentMode="scaleToFill" restorationIdentifier="localView" translatesAutoresizingMaskIntoConstraints="NO" id="dDW-Bo-ilH">
+                                <rect key="frame" x="293" y="11" width="120" height="160"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="CVM-D5-6ZM"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="JCz-MT-zA6"/>
+                                    <constraint firstAttribute="height" constant="160" id="WTM-md-O0I"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="110" id="svn-bx-KK2"/>
+                                </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVe-99-f7T">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nVe-99-f7T">
                                 <rect key="frame" x="53" y="655" width="308" height="73"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFit" ambiguous="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egj-Ru-ECD">
