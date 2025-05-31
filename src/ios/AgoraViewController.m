@@ -4,11 +4,85 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self joinChannel];
+    //[self joinChannel];
     
     [self.leaveButton setBackgroundImage:[UIImage imageNamed:@"btn_endcall_normal.png"] forState:UIControlStateNormal];
     [self.leaveButton setBackgroundImage:[UIImage imageNamed:@"btn_endcall_pressed.png"] forState:UIControlStateHighlighted];
 }
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+  //[self testLocalPreview];
+   [self startLocalPreviewAndJoin];
+}
+
+- (void)testLocalPreview {
+    // 1) Engine’in initialize edildiğinden emin olun
+    AgoraCallManager *mgr = [AgoraCallManager shareInstance];
+    if (!mgr.agoraKit) {
+        NSLog(@"⚠️ Agora engine henüz init edilmemiş!");
+        return;
+    }
+
+    // 2) İzinleri kontrol edin (asenkron). İzin verildiyse devam:
+    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL grantedCamera) {
+        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL grantedAudio) {
+            if (!grantedCamera || !grantedAudio) {
+                NSLog(@"⚠️ Kamera ya da mikrofon izni yok!");
+                return;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 3) Video motorunu açın
+                [mgr.agoraKit enableVideo];
+                [mgr.agoraKit enableLocalVideo:YES];
+
+                // 4) Local canvas oluşturun
+                AgoraRtcVideoCanvas *localCanvas = [[AgoraRtcVideoCanvas alloc] init];
+                localCanvas.uid = 0; // 0 dersek sunucu bir UID atayacak, preview için yeterli
+                localCanvas.renderMode = AgoraVideoRenderModeHidden;
+                localCanvas.view = self.localView;
+
+                // 5) Canvas ayarlamasını yapın
+                [mgr.agoraKit setupLocalVideo:localCanvas];
+
+                // 6) Preview’ı başlatın
+                [mgr.agoraKit startPreview];
+
+                // Aşağıdaki log, preview başlatıldığında geçmeli:
+                NSLog(@"✅ startPreview çağrıldı – local önizleme başlamalı");
+            });
+        }];
+    }];
+}
+
+
+- (void)startLocalPreviewAndJoin {
+    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL grantedCamera) {
+        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL grantedAudio) {
+            if (!grantedCamera || !grantedAudio) {
+                NSLog(@"⚠️ Kamera veya mikrofon izni reddedildi");
+                return;
+            }
+            // İzinler alındıktan sonra preview ve join işlemini main queue’da yapın
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // 2) Local video canvas’ı ayarlayın
+                AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
+                videoCanvas.uid = [[AgoraCallManager shareInstance].userId integerValue];
+                videoCanvas.renderMode = AgoraVideoRenderModeHidden;
+                videoCanvas.view = self.localView;
+                [[AgoraCallManager shareInstance] setLocalVideoCanvas:videoCanvas];
+                
+                // 3) Agora’dan preview’ı başlatmasını isteyin
+                [[AgoraCallManager shareInstance].agoraKit startPreview];
+                
+                // 4) Agora’ya gerçek join isteğini yapın
+                [[AgoraCallManager shareInstance] joinChannel];
+            });
+        }];
+    }];
+}
+
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
@@ -17,30 +91,22 @@
 }
 
 - (void)joinChannel {
-    self.isMicActive = YES;
-    
-    self.isCamActive = YES;
-    
-    AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
-    videoCanvas.uid = 2;
-    videoCanvas.renderMode = AgoraVideoRenderModeHidden;
-    videoCanvas.view = self.localView;
-    [[AgoraCallManager shareInstance] setLocalVideoCanvas:videoCanvas];
-    
-    [[AgoraCallManager shareInstance] joinChannel];
+  self.isMicActive = YES;
+  self.isCamActive = YES;
+  
+  [[AgoraCallManager shareInstance] joinChannel];
+
 }
 
 - (void)leaveChannel {
-    [[AgoraCallManager shareInstance] leaveFromChannel];
-    
-    for (UIView *view in [self.remoteView subviews])
-    {
-        [view removeFromSuperview];
-    }
-    for (UIView *view in [self.localView subviews])
-    {
-        [view removeFromSuperview];
-    }
+  [[AgoraCallManager shareInstance] leaveFromChannel];
+  
+  for (UIView *view in [self.remoteView subviews]) {
+      [view removeFromSuperview];
+  }
+  for (UIView *view in [self.localView subviews]) {
+      [view removeFromSuperview];
+  }
 }
 
 - (IBAction)leaveButtonClick:(UIButton *)sender {
