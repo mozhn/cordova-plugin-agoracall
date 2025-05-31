@@ -3,7 +3,7 @@
 #import "AgoraViewController.h"
 #import "AgoraCall.h"
 
-@interface AgoraCallManager : NSObject<AgoraRtcEngineDelegate>
+@interface AgoraCallManager : NSObject <AgoraRtcEngineDelegate>
 
 @property (nonatomic, strong) AgoraRtcEngineKit *agoraKit;
 
@@ -12,12 +12,11 @@
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSString *channelType;
 
-
 + (instancetype)shareInstance;
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 + (instancetype)new UNAVAILABLE_ATTRIBUTE;
 
-- (void)init:(NSString*)appId;
+- (void)init:(NSString *)appId;
 - (void)joinChannel;
 - (void)leaveFromChannel;
 - (void)muteMic;
@@ -27,8 +26,8 @@
 - (void)enableSpeakerphone;
 - (void)disableSpeakerphone;
 - (void)switchCam;
-- (void)setLocalVideoCanvas:(AgoraRtcVideoCanvas*)canvas;
-- (void)setRemoteVideoCanvas:(AgoraRtcVideoCanvas*)canvas;
+- (void)setLocalVideoCanvas:(AgoraRtcVideoCanvas *)canvas;
+- (void)setRemoteVideoCanvas:(AgoraRtcVideoCanvas *)canvas;
 - (void)requestRequiredPermissions;
 
 @end
