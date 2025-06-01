@@ -67,6 +67,13 @@
 - (void)leave:(CDVInvokedUrlCommand*)command {
     [[AgoraCallManager shareInstance] leaveFromChannel];
     [self logPluginMessage:@"LEAVE"];
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+         UIViewController *presented = self.viewController.presentedViewController;
+         if (presented && [presented isKindOfClass:[AgoraViewController class]]) {
+             [presented dismissViewControllerAnimated:YES completion:nil];
+         }
+     });
 }
 
 - (void)switchAudio:(CDVInvokedUrlCommand*)command {
