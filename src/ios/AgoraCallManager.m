@@ -41,19 +41,18 @@
   // 1) Ses/Video’yu aç
   [self.agoraKit enableAudio];
   [self.agoraKit enableLocalAudio:YES];
+
+    AgoraRtcChannelMediaOptions *mediaOptions = [AgoraRtcChannelMediaOptions new];
+  mediaOptions.autoSubscribeAudio = YES;
   
   if ([self.channelType isEqualToString:@"video"]) {
       [self.agoraKit enableVideo];
       [self.agoraKit enableLocalVideo:YES];
+    mediaOptions.autoSubscribeVideo = YES;
   }
   
   // 2) Kanal profili
   [self.agoraKit setChannelProfile:AgoraChannelProfileCommunication];
-  
-  // 3) Kanal seçenekleri
-  AgoraRtcChannelMediaOptions *mediaOptions = [AgoraRtcChannelMediaOptions new];
-  mediaOptions.autoSubscribeAudio = YES;
-  mediaOptions.autoSubscribeVideo = YES;
   
   // 4) Kanal’a join (userAccount ile)
   NSString *userAccount = self.userId;
